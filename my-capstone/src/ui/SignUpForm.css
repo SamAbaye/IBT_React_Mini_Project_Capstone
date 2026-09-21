@@ -1,0 +1,152 @@
+.form {
+    max-width: 581.33px;
+    max-height: 720px;
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-top: 65px;
+    color: #58413D;
+}
+label {
+    max-width: 581.33px;
+    max-height: 24px;
+    color: #221A16;
+    font-family:Plus Jakarta Sans;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    
+}
+.container1 {
+    width: 581.33px;
+    height: 48px;
+} 
+input {
+    width: 581.33px;
+    height: 48px;
+    border: 1px solid #F6E5DE;
+    border-radius: 8px;
+    padding: 14px 16px 15px 44px;
+    background: #FCEAE4;
+}
+.ethio-tel {
+    width: 100.27px;
+    height: 48px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background-color: #F6E5DE;
+    display: flex;
+}
+.et {
+    width: 28.33px;
+    height: 24px;
+
+}
+.plus{
+    width: 35.95px;
+    height: 24px;
+}
+.telephone {
+    width: 477.06px;
+    height: 48px;
+    color: #221A16;
+    font-family:Plus Jakarta Sans;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+}
+.container2 {
+    display: flex;
+    gap: 4px;
+}
+.password {
+    display: flex;
+    width: 282.67px;
+    height: 100px;
+    gap: 4px;
+}
+
+.password input {
+    width: 282.67px;
+    height: 48px;
+    border: 1px solid #F6E5DE;
+    border-radius: 8px;
+    padding: 14px 16px 15px 44px;
+    background: #FCEAE4;
+}
+.preference-block {
+    max-width: 480px;
+    }
+
+    .preference-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #2B2320;
+    margin: 0 0 6px;
+    }
+
+    .preference-subtitle {
+    font-size: 13px;
+    color: #9C9187;
+    margin: 0 0 14px;
+    }
+
+    .pill-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    }
+
+    .pill {
+    border: none;
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    background: #FCE9E0;
+    color: #2B2320;
+    transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .pill:hover {
+    background: #F8D9CB;
+    }
+
+    .pill.active {
+    background: #8C2F1B;
+    color: #fff;
+    }
+    .end-of-form {
+        max-width: 581.33px;
+        max-height: 720px;
+        gap: 16px;
+        margin-top: 45px;
+        color: #58413D;
+    }
+    .final-button {
+        width: 581.33px;
+        height: 48px;
+        gap: 12px;
+        margin-top: 12px;
+        text-align: center;
+        padding: 12px 54.82px;
+        border: 1px solid #F6E5DE;
+        border-radius: 8px;
+        background: #9B2C16;
+        color: white;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+        transition: background 0.15s ease, color 0.15s ease;
+        cursor: pointer;
+    }
+    .final-button:hover {
+        background-color: #652809;
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.06);
+    }

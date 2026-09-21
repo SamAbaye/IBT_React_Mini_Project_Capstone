@@ -1,0 +1,116 @@
+.cart-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 32px 20px;
+}
+
+.cart-page h2 {
+    color: #5c0909;
+    margin-bottom: 20px;
+}
+
+.cart-page p {
+    font-size: 1.05rem;
+    color: #555;
+}
+
+.cart-page a {
+    color: #690404;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.cart-page a:hover {
+    color: #614bb7;
+}
+
+.cart-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cart-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto auto auto;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.cart-row button {
+    border: 1px solid #e2e2e2;
+    background: #fafafa;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #690404;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.cart-row button:hover {
+    background: #690404;
+    color: #fff;
+}
+
+.cart-row .remove-btn {
+    border-radius: 6px;
+    width: auto;
+    padding: 4px 10px;
+    font-size: 0.1rem;
+    font-weight: 600;
+    color: #a33;
+    border-color: #f0d5d5;
+    background: #fff5f5;
+}
+
+.cart-row .remove-btn:hover {
+    background: #a33;
+    color: #fff;
+}
+
+.cart-total {
+    text-align: right;
+    font-size: 1.15rem;
+    margin: 20px 0;
+    color: #222;
+}
+
+.cart-page > button {
+    display: block;
+    margin: 0 0 20px auto;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 600;
+    color: #555;
+    cursor: pointer;
+}
+
+.cart-page > button:hover {
+    background: #f2f2f2;
+}
+.checkout {
+    display: block;
+    margin: 0 0 20px auto;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 600;
+    color: #555;
+    cursor: pointer;
+}

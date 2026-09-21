@@ -33,7 +33,7 @@ li {
     font-weight: bold;
     gap: 10px;
 }
-.menu {
+.nav-menu {
     display: flex;
     gap: 30px;
 }

@@ -1,0 +1,137 @@
+.checkout-panel {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 32px 20px;
+}
+
+.checkout-panel h2 {
+    color: #5c0909;
+    margin-bottom: 20px;
+}
+
+.checkout-panel h3 {
+    color: #2b2320;
+    font-size: 1.05rem;
+    margin: 28px 0 16px;
+}
+
+.checkout-panel p {
+    color: #555;
+    font-size: 1rem;
+}
+
+.checkout-panel a {
+    color: #690404;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.checkout-panel a:hover {
+    color: #614bb7;
+}
+
+.checkout-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.checkout-row {
+    padding: 14px 18px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.checkout-total {
+    text-align: right;
+    font-size: 1.15rem;
+    color: #222;
+    margin: 20px 0;
+}
+
+/* Delivery form */
+
+.delivery-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #eee;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-field label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #2b2320;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #222;
+    background: #fcfcfc;
+    font-family: inherit;
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+    outline: none;
+    border-color: #690404;
+    background: #fff;
+}
+
+.field-error {
+    font-size: 0.8rem;
+    color: #a33;
+}
+
+.place-order-btn {
+    margin-top: 8px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #690404;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.place-order-btn:hover {
+    background: #4f0303;
+}
+
+.clear-cart-btn {
+    display: block;
+    margin: 20px 0 0 auto;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 600;
+    color: #555;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.clear-cart-btn:hover {
+    background: #f2f2f2;
+}
