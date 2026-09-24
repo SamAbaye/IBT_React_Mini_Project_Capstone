@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import "./DishCard.css";
-import { useCart } from "../cart/CartContext";
+import './DishCard.css';
+import useCartStore from "../store/useCartStore";
 import image from "../assets/images.png";
 
 function getSpiceRating(spiceLevel) {
@@ -20,7 +20,10 @@ const DishCard = ({
   isSpecial,
   category,
 }) => {
-  const { items, dispatch } = useCart();
+  const items = useCartStore((state) => state.items);
+  const addItem = useCartStore((state) => state.addItem);
+  const removeItem = useCartStore((state) => state.removeItem);
+  const decrementItem = useCartStore((state) => state.decrementItem);
 
   const cartItem = items.find((item) => item.id === id);
   const quantity = cartItem?.qty ?? 0;
@@ -32,24 +35,29 @@ const DishCard = ({
       ? { label: "🌶️ Spicy", className: "badge-spicy" }
       : null;
 
+  // current (wrong)
+  // fixed
   const handleIncrement = () => {
-    dispatch({
-      type: "add",
-      dish: { id, nameEn, nameAm, priceETB, spiceLevel, isFasting, isSpecial, category },
+    addItem({
+      id,
+      nameEn,
+      nameAm,
+      priceETB,
+      spiceLevel,
+      isFasting,
+      isSpecial,
+      category,
     });
   };
 
   const handleDecrement = () => {
     if (quantity > 0) {
-      dispatch({ type: "decrement", id });
+      decrementItem(id);
     }
   };
 
   return (
     <div className="dish-item">
-      {/* Clicking the image or name navigates to the detail page.
-          The qty buttons below are NOT inside this Link, so clicking
-          them doesn't trigger navigation. */}
       <Link to={`/menu/${id}`} className="dish-item-link">
         <div className="image">
           <img src={image} alt={`${nameEn} (${nameAm})`} />
@@ -58,7 +66,9 @@ const DishCard = ({
         <div className="categoryWrapper">
           <span className="category-label">{category}</span>
           <div className="badges">
-            {isSpecial && <span className="badge badge-special">⭐ Special</span>}
+            {isSpecial && (
+              <span className="badge badge-special">⭐ Special</span>
+            )}
             {secondaryBadge && (
               <span className={`badge ${secondaryBadge.className}`}>
                 {secondaryBadge.label}
@@ -80,7 +90,7 @@ const DishCard = ({
       </div>
     </div>
   );
-};
+};;;
 
 DishCard.propTypes = {
   id: PropTypes.string.isRequired,

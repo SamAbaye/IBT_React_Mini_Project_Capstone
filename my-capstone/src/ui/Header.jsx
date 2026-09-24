@@ -2,15 +2,13 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import hero from "../assets/modern-restaurant-logo.jpg"
 import "./Header.css"
-import { useCart } from '../cart/CartContext' // useCart, not useContext(CartContext) directly —
-                                                 // this is the guarded hook we built that throws
-                                                 // a clear error if Header ever renders outside <CartProvider>
-
+import useCartStore from "../store/useCartStore";
 const Header = () => {
-    // count and total are already computed for you inside CartProvider's useMemo —
-    // no need to derive them again here from `items`
-    const { count, total } = useCart();
-
+    
+    const count = useCartStore((state) => state.totalCount());
+    const total = useCartStore((state) => state.totalPrice());
+    console.log(count);
+    console.log(total);
     return (
         <div className="header">
             <div className="logo">
@@ -21,10 +19,10 @@ const Header = () => {
             <div className="nav-menu">
                 <ul className="menu-list">
                     <li>
-                        <NavLink to="/menu">Menu</NavLink>
+                        <NavLink to="/">Home</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/featured">Featured Dish</NavLink>
+                        <NavLink to="/menu">Menu</NavLink>
                     </li>
                     <li>
                         <NavLink to="/cart">Order & Cart</NavLink>

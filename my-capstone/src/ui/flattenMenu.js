@@ -1,5 +1,4 @@
-// Converts { categories: [{ category, items: [...] }] } into a flat array
-// of dishes, each carrying its own `category` and a normalized `price` field.
+
 export function flattenMenu(data) {
   if (!data?.categories) return [];
 

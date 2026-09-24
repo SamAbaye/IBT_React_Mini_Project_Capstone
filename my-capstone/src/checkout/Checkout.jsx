@@ -1,73 +1,64 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useCart } from "../cart/CartContext";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import useCartStore from "../store/useCartStore";
 import "./Checkout.css";
 
-const INITIAL_FORM = {
-  fullName: "",
-  phone: "",
-  address: "",
-  city: "",
-  notes: "",
-  paymentMethod: "cash",
-};
-
-function validate(form) {
-  const errors = {};
-
-  if (!form.fullName.trim()) {
-    errors.fullName = "Full name is required.";
-  }
-
-  if (!form.phone.trim()) {
-    errors.phone = "Phone number is required.";
-  } else if (!/^\+?[0-9\s-]{7,15}$/.test(form.phone.trim())) {
-    errors.phone = "Enter a valid phone number.";
-  }
-
-  if (!form.address.trim()) {
-    errors.address = "Delivery address is required.";
-  }
-
-  if (!form.city.trim()) {
-    errors.city = "City is required.";
-  }
-
-  return errors;
-}
+const checkoutSchema = z.object({
+  fullName: z.string().min(1, "Full name is required."),
+  phone: z
+    .string()
+    .min(1, "Phone number is required.")
+    .regex(/^\+?[0-9\s-]{7,15}$/, "Enter a valid phone number."),
+  address: z.string().min(1, "Delivery address is required."),
+  city: z.string().min(1, "City is required."),
+  notes: z.string().optional(),
+  paymentMethod: z.enum(["cash", "card", "mobile"]),
+});
 
 function Checkout() {
-  const { items, dispatch, total } = useCart();
+  const items = useCartStore((state) => state.items);
+  const total = useCartStore((state) => state.totalPrice());
+  const clearCart = useCartStore((state) => state.clearCart);
 
-  const [form, setForm] = useState(INITIAL_FORM);
-  const [errors, setErrors] = useState({});
-  const [submitted, setSubmitted] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const [placedOrder, setPlacedOrder] = useState(null);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(checkoutSchema),
+    mode: "onTouched",
+    defaultValues: {
+      fullName: "",
+      phone: "",
+      address: "",
+      city: "",
+      notes: "",
+      paymentMethod: "cash",
+    },
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSubmitted(true);
-
-    const validationErrors = validate(form);
-    setErrors(validationErrors);
-
-    if (Object.keys(validationErrors).length === 0) {
-      // In a real app: send `form` + `items` to your backend here.
-      setOrderPlaced(true);
-      dispatch({ type: "clear" });
-    }
+  const onSubmit = async (data) => {
+    // simulate placing an order — swap with a real API call when ready
+    const order = { id: Date.now(), ...data };
+    setPlacedOrder(order);
+    setOrderPlaced(true);
+    clearCart();
   };
 
   if (orderPlaced) {
     return (
       <div className="checkout-panel">
         <h2>Order placed!</h2>
-        <p>Thanks, {form.fullName.split(" ")[0]} — your order is on its way to {form.address}.</p>
+        <p>
+          Thanks, {placedOrder.fullName.split(" ")[0]} — your order is on its
+          way to {placedOrder.address}.
+        </p>
         <Link to="/menu">Back to menu</Link>
       </div>
     );
@@ -98,21 +89,23 @@ function Checkout() {
         <strong>Total: {total} ETB</strong>
       </p>
 
-      <form className="delivery-form" onSubmit={handleSubmit} noValidate>
+      <form
+        className="delivery-form"
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+      >
         <h3>Delivery Details</h3>
 
         <div className="form-field">
           <label htmlFor="fullName">Full Name</label>
           <input
             id="fullName"
-            name="fullName"
             type="text"
-            value={form.fullName}
-            onChange={handleChange}
             placeholder="e.g. Abebe Bikila"
+            {...register("fullName")}
           />
-          {submitted && errors.fullName && (
-            <span className="field-error">{errors.fullName}</span>
+          {errors.fullName && (
+            <span className="field-error">{errors.fullName.message}</span>
           )}
         </div>
 
@@ -120,14 +113,12 @@ function Checkout() {
           <label htmlFor="phone">Phone Number</label>
           <input
             id="phone"
-            name="phone"
             type="tel"
-            value={form.phone}
-            onChange={handleChange}
             placeholder="+251 911 234 567"
+            {...register("phone")}
           />
-          {submitted && errors.phone && (
-            <span className="field-error">{errors.phone}</span>
+          {errors.phone && (
+            <span className="field-error">{errors.phone.message}</span>
           )}
         </div>
 
@@ -135,14 +126,12 @@ function Checkout() {
           <label htmlFor="address">Delivery Address</label>
           <input
             id="address"
-            name="address"
             type="text"
-            value={form.address}
-            onChange={handleChange}
             placeholder="Street, building, floor"
+            {...register("address")}
           />
-          {submitted && errors.address && (
-            <span className="field-error">{errors.address}</span>
+          {errors.address && (
+            <span className="field-error">{errors.address.message}</span>
           )}
         </div>
 
@@ -150,14 +139,12 @@ function Checkout() {
           <label htmlFor="city">City</label>
           <input
             id="city"
-            name="city"
             type="text"
-            value={form.city}
-            onChange={handleChange}
             placeholder="Addis Ababa"
+            {...register("city")}
           />
-          {submitted && errors.city && (
-            <span className="field-error">{errors.city}</span>
+          {errors.city && (
+            <span className="field-error">{errors.city.message}</span>
           )}
         </div>
 
@@ -165,34 +152,31 @@ function Checkout() {
           <label htmlFor="notes">Delivery Notes (optional)</label>
           <textarea
             id="notes"
-            name="notes"
-            value={form.notes}
-            onChange={handleChange}
             placeholder="Gate code, landmark, special instructions..."
             rows={3}
+            {...register("notes")}
           />
         </div>
 
         <div className="form-field">
           <label htmlFor="paymentMethod">Payment Method</label>
-          <select
-            id="paymentMethod"
-            name="paymentMethod"
-            value={form.paymentMethod}
-            onChange={handleChange}
-          >
+          <select id="paymentMethod" {...register("paymentMethod")}>
             <option value="cash">Cash on Delivery</option>
             <option value="card">Card on Delivery</option>
             <option value="mobile">Mobile Money</option>
           </select>
         </div>
 
-        <button type="submit" className="place-order-btn">
-          Place Order — {total} ETB
+        <button
+          type="submit"
+          className="place-order-btn"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Placing order..." : `Place Order — ${total} ETB`}
         </button>
       </form>
 
-      <button className="clear-cart-btn" onClick={() => dispatch({ type: "clear" })}>
+      <button className="clear-cart-btn" onClick={clearCart}>
         Clear Cart
       </button>
     </div>

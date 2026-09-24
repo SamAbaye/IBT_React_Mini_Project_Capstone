@@ -1,27 +1,24 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, lazy, Suspense } from "react";
 import CategoryBar from "./CatagoryBar";
-import DishCard from "./DishCard";
 import "./Menu.css";
 import { useFetch } from "../hooks/useFetch";
-import { useCart } from "../cart/CartContext";
+
+const DishCard = lazy(() => import("./DishCard"));
 
 function Menu() {
   const [category, setCategory] = useState("All");
   const { data, loading, error } = useFetch("/menu.json");
-  const { dispatch } = useCart();
 
   const dishes = useMemo(() => {
     if (!data?.categories) return [];
     return data.categories.flatMap((cat) =>
-      
       cat.items.map((item) => ({
         ...item,
         category: cat.category,
         price: item.priceETB,
         spiceLevel: item.spiceLevel,
         isFasting: item.isFasting,
-        isSpecial: item.isSpecial
-
+        isSpecial: item.isSpecial,
       })),
     );
   }, [data]);
@@ -39,8 +36,6 @@ function Menu() {
     return [...filtered].sort((a, b) => a.price - b.price);
   }, [dishes, category]);
 
-  const addItem = (dish) => dispatch({ type: "add", dish });
-
   let content;
   if (loading) {
     content = <p>Loading the menu…</p>;
@@ -49,9 +44,7 @@ function Menu() {
   } else if (shown.length === 0) {
     content = <p>No dishes yet.</p>;
   } else {
-    content = shown.map((d) => (
-      <DishCard key={d.id} {...d} onAdd={() => addItem(d)} />
-    ));
+    content = shown.map((d) => <DishCard key={d.id} {...d} />);
   }
 
   return (
@@ -61,10 +54,9 @@ function Menu() {
         selected={category}
         onSelect={setCategory}
       />
-      <div className="menu">
-        {content}
-        
-      </div>
+      <Suspense fallback={<p>Loading dishes…</p>}>
+        <div className="menu">{content}</div>
+      </Suspense>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 export function validate(form) {
+  
   const errors = {};
   if (!form.name.trim()) errors.name = "Please enter your name";
   if (!/^(?:\+251|0)9\d{8}$/.test(form.phone))
@@ -6,3 +7,5 @@ export function validate(form) {
   if (!AREAS.includes(form.area)) errors.area = "Choose a delivery area";
   return errors; // {} means valid
 }
+
+

@@ -1,5 +1,5 @@
 import { useReducer, useMemo } from "react";
-import { CartContext } from "./CartContext";
+import useCartStore from "../store/useCartStore";
 
 const initialState = {
   items: [], // [{ ...dish, qty }]

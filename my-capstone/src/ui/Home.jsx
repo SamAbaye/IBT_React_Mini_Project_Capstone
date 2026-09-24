@@ -1,17 +1,16 @@
 import React from 'react'
 import './Home.css'
-import google from '../assets/google-icon-logo-svgrepo-com.svg'
-import SignUpForm from './SignUpForm';
-import LeftSide from './LeftSide';
-import TopGuide from './TopGuide';
-import RightSide from './RightSide';
+import TopGuide from './TopGuide'
+import SpecialDisplay from './SpecialDisplay';
 const Home = () => {
+
+
     return (
       <div className="home">
         
         <TopGuide />
-        <LeftSide />
-        <RightSide />
+        <SpecialDisplay />
+        
       </div>
     );
 }

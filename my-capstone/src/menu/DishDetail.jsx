@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useFetch } from "../hooks/useFetch";
-import { useCart } from "../cart/CartContext";
+import useCartStore from "../store/useCartStore";
 import { flattenMenu } from "../ui/flattenMenu";
 import image from "../assets/images.png";
 import "./DishDetail.css";
@@ -13,10 +13,11 @@ function getSpiceRating(spiceLevel) {
 
 function DishDetail() {
   const { id } = useParams();
-  const { data, loading, error } = useFetch(
-    "/menu.json",
-  );
-  const { items, dispatch } = useCart();
+  const { data, loading, error } = useFetch("/menu.json");
+
+  const items = useCartStore((state) => state.items);
+  const addItem = useCartStore((state) => state.addItem);
+  const decrementItem = useCartStore((state) => state.decrementItem);
 
   if (loading) return <p className="dish-detail-status">Loading dish…</p>;
   if (error) return <p className="dish-detail-status err">{error}</p>;
@@ -38,23 +39,20 @@ function DishDetail() {
   const isSpicy = getSpiceRating(dish.spiceLevel) >= 2;
 
   const handleIncrement = () => {
-    dispatch({
-      type: "add",
-      dish: {
-        id: dish.id,
-        nameEn: dish.nameEn,
-        nameAm: dish.nameAm,
-        priceETB: dish.priceETB,
-        spiceLevel: dish.spiceLevel,
-        isFasting: dish.isFasting,
-        isSpecial: dish.isSpecial,
-        category: dish.category,
-      },
+    addItem({
+      id: dish.id,
+      nameEn: dish.nameEn,
+      nameAm: dish.nameAm,
+      priceETB: dish.priceETB,
+      spiceLevel: dish.spiceLevel,
+      isFasting: dish.isFasting,
+      isSpecial: dish.isSpecial,
+      category: dish.category,
     });
   };
 
   const handleDecrement = () => {
-    if (quantity > 0) dispatch({ type: "decrement", id: dish.id });
+    if (quantity > 0) decrementItem(dish.id);
   };
 
   return (
@@ -75,8 +73,12 @@ function DishDetail() {
           <h2 className="dish-name-am">{dish.nameAm}</h2>
 
           <div className="badges">
-            {dish.isSpecial && <span className="badge badge-special">⭐ Special</span>}
-            {dish.isFasting && <span className="badge badge-fasting">Fasting</span>}
+            {dish.isSpecial && (
+              <span className="badge badge-special">⭐ Special</span>
+            )}
+            {dish.isFasting && (
+              <span className="badge badge-fasting">Fasting</span>
+            )}
             {!dish.isFasting && isSpicy && (
               <span className="badge badge-spicy">🌶️ Spicy</span>
             )}
